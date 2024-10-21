@@ -32,6 +32,6 @@ const touristAccommodationSchema = new mongoose.Schema({
   timestamps: true, // Adds createdAt and updatedAt timestamps
 });
 
-const TouristAccommodation = mongoose.model('TouristAccommodation', touristAccommodationSchema);
+const TouristAccommodationmodel = mongoose.model('TouristAccommodation', touristAccommodationSchema);
 
-export default TouristAccommodation;
+export default TouristAccommodationmodel;

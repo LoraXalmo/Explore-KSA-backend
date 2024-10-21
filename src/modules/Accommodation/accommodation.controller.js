@@ -1,8 +1,9 @@
-import Accommodation from "../../../db/models/Accommodation.model"
+import Accommodationmodel from "../../../db/models/Accommodation.model.js";
+
 // Create new accommodation
 export const createAccommodation = async (req, res) => {
   try {
-    const newAccommodation = new Accommodation(req.body);
+    const newAccommodation = new Accommodationmodel(req.body);
     const savedAccommodation = await newAccommodation.save();
     res.status(201).json(savedAccommodation);
   } catch (error) {
@@ -10,10 +11,10 @@ export const createAccommodation = async (req, res) => {
   }
 };
 
-// Get all accommodations
+// Get all Accommodation
 export const getAllAccommodations = async (req, res) => {
   try {
-    const accommodations = await Accommodation.find();
+    const accommodations = await Accommodationmodel.find();
     res.status(200).json(accommodations);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching accommodations', error });
@@ -34,7 +35,7 @@ export const getAllAccommodations = async (req, res) => {
 // Get accommodation by ID
 export const getAccommodationById = async (req, res) => {
   try {
-    const accommodation = await Accommodation.findById(req.params.id);
+    const accommodation = await Accommodationmodel.findById(req.params.id);
     if (!accommodation) return res.status(404).json({ message: 'Accommodation not found' });
     res.status(200).json(accommodation);
   } catch (error) {
@@ -45,7 +46,7 @@ export const getAccommodationById = async (req, res) => {
 // Update accommodation
 export const updateAccommodation = async (req, res) => {
   try {
-    const updatedAccommodation = await Accommodation.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedAccommodation = await Accommodationmodel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedAccommodation) return res.status(404).json({ message: 'Accommodation not found' });
     res.status(200).json(updatedAccommodation);
   } catch (error) {
@@ -56,7 +57,7 @@ export const updateAccommodation = async (req, res) => {
 // Delete accommodation
 export const deleteAccommodation = async (req, res) => {
   try {
-    const deletedAccommodation = await Accommodation.findByIdAndDelete(req.params.id);
+    const deletedAccommodation = await Accommodationmodel.findByIdAndDelete(req.params.id);
     if (!deletedAccommodation) return res.status(404).json({ message: 'Accommodation not found' });
     res.status(200).json({ message: 'Accommodation deleted' });
   } catch (error) {
@@ -66,7 +67,7 @@ export const deleteAccommodation = async (req, res) => {
 
 export const getAccommodationNames = async (req, res) => {
     try {
-      const accommodationNames = await Accommodation.distinct('name'); // Use distinct to get unique names
+      const accommodationNames = await Accommodationmodel.distinct('name'); // Use distinct to get unique names
       res.status(200).json(accommodationNames);
     } catch (error) {
       res.status(400).json({ message: 'Error fetching accommodation names', error });
@@ -75,7 +76,7 @@ export const getAccommodationNames = async (req, res) => {
   
   export const getAccommodationTypes = async (req, res) => {
     try {
-      const accommodationTypes = await Accommodation.distinct('type'); // Get unique types
+      const accommodationTypes = await Accommodationmodel.distinct('type'); // Get unique types
       res.status(200).json(accommodationTypes);
     } catch (error) {
       res.status(400).json({ message: 'Error fetching accommodation types', error });
@@ -91,7 +92,7 @@ export const getAccommodationNames = async (req, res) => {
       if (name) filter.name = name;
       if (type) filter.type = type;
   
-      const accommodations = await Accommodation.find(filter);
+      const accommodations = await Accommodationmodel.find(filter);
   
       if (accommodations.length === 0) {
         return res.status(404).json({ message: 'No accommodations found with the given criteria' });

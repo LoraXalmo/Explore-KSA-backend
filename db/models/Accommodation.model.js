@@ -26,5 +26,5 @@ const accommodationSchema = new mongoose.Schema({
   timestamps: true
 });
 
-const Accommodation = mongoose.model('Accommodation', accommodationSchema);
-export default Accommodation;
+const Accommodationmodel = mongoose.model('Accommodation', accommodationSchema);
+export default Accommodationmodel;
