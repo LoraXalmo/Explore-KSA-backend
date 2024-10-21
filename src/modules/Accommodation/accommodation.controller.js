@@ -1,5 +1,4 @@
-import Accommodation from "../../../db/models/accommodation.model.js";
-
+import Accommodation from "../../../db/models/Accommodation.model"
 // Create new accommodation
 export const createAccommodation = async (req, res) => {
   try {
