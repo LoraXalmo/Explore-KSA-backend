@@ -5,8 +5,9 @@ import destinationRoutes from './src/modules/destination/destination.router.js';
 import cors from "cors";
 import itineraryRoutes from './src/modules/Itinerary/Itinerary.router.js';
 import accommodationRoutes from "./src/modules/Accommodation/accommodation.router.js";
-import touristAccommodationRouter from './src/modules/touristAccommodation/touristAccommodation.router.js'; // Adjust the path if necessary
-
+import touristAccommodationRouter from './src/modules/touristAccommodation/touristAccommodation.router.js';
+import transportationRouter from './src/modules/transport/transport.router.js';
+import touristRoutes from './src/modules/Touristtransport/Touristtransport.router.js';
 dotenv.config();
 
 export const appMethods = (app, express) => {
@@ -18,7 +19,8 @@ export const appMethods = (app, express) => {
      app.use('/api/itineraries', itineraryRoutes);
      app.use('/api/accommodation', accommodationRoutes);
      app.use('/api/tourist-accommodation', touristAccommodationRouter);
-    
+     app.use('/api/transportation', transportationRouter);
+     app.use('/api/touriststransportation', touristRoutes);
     
     app.get("/", (req, res, next) => {
         const temp = `
