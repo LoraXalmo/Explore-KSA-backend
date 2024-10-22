@@ -8,6 +8,7 @@ import accommodationRoutes from "./src/modules/Accommodation/accommodation.route
 import touristAccommodationRouter from './src/modules/touristAccommodation/touristAccommodation.router.js';
 import transportationRouter from './src/modules/transport/transport.router.js';
 import touristRoutes from './src/modules/Touristtransport/Touristtransport.router.js';
+import reviewRoutes from './src/modules/reviews/reviews.router.js';
 dotenv.config();
 
 export const appMethods = (app, express) => {
@@ -21,7 +22,8 @@ export const appMethods = (app, express) => {
      app.use('/api/tourist-accommodation', touristAccommodationRouter);
      app.use('/api/transportation', transportationRouter);
      app.use('/api/touriststransportation', touristRoutes);
-    
+     app.use('/api/reviwews', reviewRoutes);
+
     app.get("/", (req, res, next) => {
         const temp = `
         <!DOCTYPE html>

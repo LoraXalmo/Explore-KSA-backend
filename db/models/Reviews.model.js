@@ -6,13 +6,12 @@ const reviewSchema = new mongoose.Schema({
   comment: { type: String, required: true }, // تعليق المراجعة
   reviewFor: { 
     type: String, 
-    enum: ['Destination', 'Accommodation', 'Transportation'], 
+    enum: ['Destination', 'Accommodation', 'Transportation','Itineraries'], 
     required: true 
-  }, // المراجعة موجهة لأي نوع من الخدمات
-  referenceId: { type: mongoose.Schema.Types.ObjectId, required: true } // الـ ID للوجهة أو الإقامة أو وسيلة النقل
+  }, 
 }, {
   timestamps: true
 });
 
-const Review = mongoose.model('Review', reviewSchema);
-export default Review;
+const Reviewmodel = mongoose.model('Review', reviewSchema);
+export default Reviewmodel;
