@@ -4,6 +4,8 @@ import User from '../../../db/models/Users.model.js';
 import dotenv from 'dotenv';
 import Token from '../../../db/models/Token.model.js';
 import { validateChangePassword, validateLogin, validateSignup } from './user.validate.js';
+import Reviewmodel from '../../../db/models/Reviews.model.js';
+import Itinerary from '../../../db/models/TouristItineraries.model.js';
 dotenv.config();
 // Sign up controller
 // Sign up controller
@@ -129,14 +131,25 @@ export const getAllUsers = async (req, res) => {
 
 // Get specific user by ID
 // Get a specific user by ID with populated savedItineraries
-export const getUser = async (req, res) => {
-    try {
-      const user = await User.findById(req.params.id).populate('savedItineraries'); // Populate savedItineraries
-      if (!user) return res.status(404).json({ message: 'User not found' });
-      res.status(200).json({status:200 , result:true , data:user});
-    } catch (err) {
-      res.status(500).json({ message: err.message });
+export const getUserId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("id ",id)
+
+    // البحث عن العميل باستخدام id
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'user not found' });
     }
+
+    // إرسال بيانات العميل والحسابات المرتبطة به في الرد
+    res.status(200).json({
+      message: 'user and bank accounts found successfully',
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({ message: 'Error fetching user', error });
+  }
   };
   
 
@@ -165,17 +178,43 @@ export const changePassword = async (req, res) => {
     }
 };
 
-
+export const updateuser = async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const updateduser = await User.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updateduser) {
+      return res.status(404).json({ message: 'user not found' });
+    }
+    
+    res.status(200).json({ message: 'user updated successfully', updateduser });
+  } catch (error) {
+    res.status(400).json({ message: 'Error updating user', error });
+  }
+};
   
 
 // Delete user (Admin only)
 export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    res.status(200).json({ message: 'User deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    // حذف جميع الحسابات البنكية الخاصة بالعميل
+    await Reviewmodel.deleteMany({ user: id });
+
+    // حذف الـ token الخاص بالعميل
+    await Token.deleteMany({ user: id });
+      // Itinerary
+      await Itinerary.deleteMany({ user: id });
+    // حذف العميل
+    const deletedCustomer = await User.findByIdAndDelete(id);
+    if (!deletedCustomer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+
+    res.status(200).json({ message: 'Customer and associated data deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Error deleting customer', error });
   }
 };
 
