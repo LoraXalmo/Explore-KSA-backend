@@ -144,7 +144,7 @@ export const getUserId = async (req, res) => {
 
     // إرسال بيانات العميل والحسابات المرتبطة به في الرد
     res.status(200).json({
-      message: 'user and bank accounts found successfully',
+      message: 'user data found',
       user,
     });
   } catch (error) {
